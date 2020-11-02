@@ -23,19 +23,32 @@ const typeDefs = gql`
     rocket_name: String!
   }
 `;
-const launches = [{}]
+
+const launches = [
+  {
+    flight_number: 1,
+    mission_name: "mission alpha",
+    details: "first mission details",
+    links: {
+      flickr_images: ['link-image-1', 'link-image-2']
+    },
+    rocket: {
+      rocket_name: "mega booh"
+    },
+  }
+]
 
 const resolvers = {
-    Query: {
-        launches: (obj, args, context) => launches,
-        launch: (obj, args, context) =>
-            launches.find(launch => args.id === launch.flight_number)
-    }
+  Query: {
+    launches: (obj, args, context) => launches,
+    launch: (obj, args, context) =>
+      launches.find(launch => args.id === launch.flight_number)
+  }
 };
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers
+  typeDefs,
+  resolvers
 });
 
 server.listen().then(({ url }) => console.log(`🚀 Server ready at: ${url}`));
