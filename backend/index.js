@@ -1,3 +1,5 @@
+require('dotenv').config();
+const { MongoClient } = require('mongodb');
 const gql = require("graphql-tag");
 const { ApolloServer } = require("apollo-server");
 
@@ -50,5 +52,9 @@ const server = new ApolloServer({
   typeDefs,
   resolvers
 });
+
+MongoClient.connect(process.env.MONGO_URL, (err, db) => {
+  if (err) console.error('se murio', err); return;
+})
 
 server.listen().then(({ url }) => console.log(`🚀 Server ready at: ${url}`));
